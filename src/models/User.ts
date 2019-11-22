@@ -1,13 +1,13 @@
 export interface IUser {
     accountName: string;
     league: string;
-    sessionId: string;
+    sessionId: string | undefined;
 }
 
 export class User {
     public accountName: string;
     public league: string;
-    public sessionId: string;
+    public sessionId: string | undefined;
 
     constructor({
         accountName,
