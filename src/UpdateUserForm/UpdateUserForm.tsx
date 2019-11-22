@@ -11,10 +11,14 @@ export const UpdateUserForm: React.FC<Props> = ({
         const form = event.target as HTMLFormElement;
         const elements = form.elements as IUpdateUserFormElements;
 
+        const accountName = elements.accountName.value;
+        const league = elements.league.value;
+        const sessionId = elements.sessionId.value;
+
         const user = new User({
-            accountName: elements.accountName.value,
-            league: elements.league.value,
-            sessionId: elements.sessionId.value,
+            accountName,
+            league,
+            sessionId,
         });
 
         if (updateUser != null) {

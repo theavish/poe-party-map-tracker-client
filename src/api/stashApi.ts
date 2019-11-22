@@ -1,13 +1,14 @@
 import { STASH_ITEMS } from '../constants/urls';
-import {IUser, User} from '../models/User';
+import { IUser, User } from '../models/User';
+import { getJsonFromResponse } from '../helpers/jsonHelpers';
 
 export const getStashItems = ({
-    league = 'blight',
-    accountName = '',
-    sessionId = '',
+    league,
+    accountName,
+    sessionId,
 }: IUser = new User()): any => {
     const tabIndex: number | string = 0;
-    const tabs: 0 | 1 | '0' | '1' = 1;
+    const tabs: 0 | 1 = 1;
 
     const url = STASH_ITEMS
         .replace('{accountName}', accountName)
@@ -20,9 +21,4 @@ export const getStashItems = ({
         method: 'get',
     }).then(getJsonFromResponse);
 };
-
-const getJsonFromResponse = (response: Response): object =>
-    response.json
-        ? response.json()
-        : response.text();
 

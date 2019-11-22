@@ -1,13 +1,13 @@
 export interface IUser {
     accountName: string;
     league: string;
-    sessionId: string | undefined;
+    sessionId: string;
 }
 
 export class User {
     public accountName: string;
     public league: string;
-    public sessionId: string | undefined;
+    public sessionId: string;
 
     constructor({
         accountName,
@@ -19,7 +19,7 @@ export class User {
         sessionId: '',
     }) {
         this.accountName = accountName;
-        this.league = league;
+        this.league = league === '' ? 'blight' : league;
         this.sessionId = sessionId;
     }
 }
