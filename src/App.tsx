@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { getStashItems } from './api/stashApi';
 import { UpdateUserForm } from './UpdateUserForm';
 import { prettyPrintJson } from './helpers/jsonHelpers';
-import {IUser, User} from './models/User';
-import {IStash} from './models/Stash';
+import { IUser } from './models/User';
+import { IStash } from './models/Stash';
 
 export const App: React.FC<Props> = () => {
     const [
