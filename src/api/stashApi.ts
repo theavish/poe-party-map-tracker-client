@@ -4,7 +4,7 @@ import {IUser, User} from '../models/User';
 export const getStashItems = ({
     league = 'blight',
     accountName = '',
-    userSessionCookie = '',
+    sessionId = '',
 }: IUser = new User()): any => {
     const tabIndex: number | string = 0;
     const tabs: 0 | 1 | '0' | '1' = 1;
@@ -12,7 +12,7 @@ export const getStashItems = ({
     const url = STASH_ITEMS
         .replace('{accountName}', accountName)
         .replace('{league}', league)
-        .replace('{sessionId}', userSessionCookie)
+        .replace('{sessionId}', sessionId)
         .replace('{tabIndex}', tabIndex.toString())
         .replace('{tabs}', tabs.toString());
 
