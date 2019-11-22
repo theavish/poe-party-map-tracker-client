@@ -3,8 +3,8 @@ import {IUser, User} from '../models/User';
 
 export const getStashItems = ({
     league = 'blight',
-    accountName = 'theavish',
-    userSessionCookie = 'd7941afb56fc4d0a450347cb074eef8f',
+    accountName = '',
+    userSessionCookie = '',
 }: IUser = new User()): any => {
     const tabIndex: number | string = 0;
     const tabs: 0 | 1 | '0' | '1' = 1;
