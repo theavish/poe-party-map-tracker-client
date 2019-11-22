@@ -3,10 +3,10 @@ import { FormField } from './FormField';
 import { IUser, User } from '../models/User';
 import { IUpdateUserFormElements } from '../models/UpdateUserFormElements';
 
-export const Form: React.FC<Props> = ({
-    onSubmit,
+export const UpdateUserForm: React.FC<Props> = ({
+    updateUser,
 }) => {
-    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    const setUser = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const form = event.target as HTMLFormElement;
         const elements = form.elements as IUpdateUserFormElements;
@@ -17,13 +17,13 @@ export const Form: React.FC<Props> = ({
             sessionId: elements.sessionId.value,
         });
 
-        if (onSubmit != null) {
-            onSubmit(user);
+        if (updateUser != null) {
+            updateUser(user);
         }
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={setUser}>
             <FormField
                 name="accountName"
                 placeholder="Account Name"
@@ -45,5 +45,5 @@ export const Form: React.FC<Props> = ({
 };
 
 interface Props {
-    onSubmit?: (user: IUser) => void
+    updateUser?: (user: IUser) => void
 }

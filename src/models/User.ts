@@ -13,7 +13,11 @@ export class User {
         accountName,
         league,
         sessionId,
-    }: IUser) {
+    }: IUser = {
+        accountName: '',
+        league: '',
+        sessionId: '',
+    }) {
         this.accountName = accountName;
         this.league = league;
         this.sessionId = sessionId;

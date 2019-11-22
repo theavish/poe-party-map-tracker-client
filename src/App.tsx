@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { getStashItems } from './api/stashApi';
-import { Form as TrackAUserForm } from './UpdateUserForm/Form';
+import { UpdateUserForm } from './UpdateUserForm';
 import { prettyPrintJson } from './helpers/jsonHelpers';
-import { IUser } from './models/User';
+import {IUser, User} from './models/User';
+import {IStash} from './models/Stash';
 
 export const App: React.FC<Props> = () => {
     const [
         stash,
         setStash
-    ] = useState({});
+    ] = useState<IStash | null>(null);
 
     const [
         user,
@@ -27,7 +28,7 @@ export const App: React.FC<Props> = () => {
 
     return (
         <>
-            <TrackAUserForm onSubmit={setUser} />
+            <UpdateUserForm updateUser={setUser} />
             <pre>User Data: {prettyPrintJson(user)}</pre>
             <pre>Stash Data: {prettyPrintJson(stash)}</pre>
         </>
