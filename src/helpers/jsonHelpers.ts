@@ -1,10 +1,10 @@
 export const prettyPrintJson = (
-    json: object | undefined | null,
+    input: object | undefined | null,
     whitespace: number = 2
 ): string =>
-    JSON.stringify(json, null, whitespace);
+    JSON.stringify(input, null, whitespace);
 
-export const getJsonFromResponse = (response: Response): object =>
+export const getJsonFromResponse = (response: Response) =>
     response.json
         ? response.json()
         : response.text();

@@ -1,18 +1,27 @@
 import { STASH_ITEMS } from '../constants/urls';
-import { IUser, User } from '../models/User';
 import { getJsonFromResponse } from '../helpers/jsonHelpers';
+import { IStashItemsRequest } from '../models/StashItemsRequest';
 
 export const getStashItems = ({
-    league,
     accountName,
+    league,
+    realm,
     sessionId,
-}: IUser = new User()): any => {
-    const tabIndex: number | string = 0;
-    const tabs: 0 | 1 = 1;
+    tabIndex,
+    tabs,
+}: IStashItemsRequest) => {
+    if (!tabIndex) {
+        tabIndex = 0;
+    }
+
+    if (!tabs) {
+        tabs = 0;
+    }
 
     const url = STASH_ITEMS
         .replace('{accountName}', accountName)
         .replace('{league}', league)
+        .replace('{realm}', realm)
         .replace('{sessionId}', sessionId)
         .replace('{tabIndex}', tabIndex.toString())
         .replace('{tabs}', tabs.toString());
