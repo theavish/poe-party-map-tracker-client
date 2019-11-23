@@ -1,16 +1,18 @@
-import { TRealm } from './Realm';
+import { ERealm } from './Realm';
+import { defaultRealm } from '../constants/defaults';
+import { ELeague } from './League';
 
 export interface IUser {
     accountName: string;
-    league: string;
-    realm: TRealm;
+    league: ELeague;
+    realm?: ERealm;
     sessionId: string;
 }
 
 export class User implements IUser {
     public accountName: string;
-    public realm: TRealm;
-    public league: string;
+    public league: ELeague;
+    public realm?: ERealm = defaultRealm;
     public sessionId: string;
 
     constructor({
@@ -20,19 +22,8 @@ export class User implements IUser {
         sessionId,
     }: IUser) {
         this.accountName = accountName;
-        this.league = league === '' ? 'blight' : league;
+        this.league = league;
         this.sessionId = sessionId;
-
-        switch (realm) {
-            case 'pc':
-            case 'sony':
-            case 'xbox':
-                this.realm = realm;
-                break;
-
-            default:
-                this.realm = 'pc';
-                break;
-        }
+        this.realm = realm;
     }
 }

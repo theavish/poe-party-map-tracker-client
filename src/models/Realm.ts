@@ -1,1 +1,5 @@
-export type TRealm = 'pc' | 'sony' | 'xbox';
+export enum ERealm {
+    PC = 'pc',
+    SONY = 'sony',
+    XBOX = 'xbox',
+}

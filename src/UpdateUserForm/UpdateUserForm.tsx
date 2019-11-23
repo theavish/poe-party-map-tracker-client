@@ -1,7 +1,9 @@
-import React, {FormEvent} from 'react';
+import React, { FormEvent } from 'react';
 import { FormField } from './FormField';
 import { IUser, User } from '../models/User';
 import { IUpdateUserFormElements } from '../models/UpdateUserFormElements';
+import { ELeague } from '../models/League';
+import { defaultLeague } from '../constants/defaults';
 
 export const UpdateUserForm: React.FC<Props> = ({
     updateUser,
@@ -12,7 +14,7 @@ export const UpdateUserForm: React.FC<Props> = ({
         const elements = form.elements as IUpdateUserFormElements;
 
         const accountName = elements.accountName.value;
-        const league = elements.league.value;
+        const league = elements.league.value as ELeague;
         const sessionId = elements.sessionId.value;
 
         const user = new User({

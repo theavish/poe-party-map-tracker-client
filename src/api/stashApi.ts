@@ -1,23 +1,16 @@
 import { STASH_ITEMS } from '../constants/urls';
 import { getJsonFromResponse } from '../helpers/jsonHelpers';
 import { IStashItemsRequest } from '../models/StashItemsRequest';
+import { defaultRealm } from '../constants/defaults';
 
 export const getStashItems = ({
     accountName,
     league,
-    realm,
+    realm = defaultRealm,
     sessionId,
-    tabIndex,
-    tabs,
+    tabIndex = 0,
+    tabs = 0,
 }: IStashItemsRequest) => {
-    if (!tabIndex) {
-        tabIndex = 0;
-    }
-
-    if (!tabs) {
-        tabs = 0;
-    }
-
     const url = STASH_ITEMS
         .replace('{accountName}', accountName)
         .replace('{league}', league)
