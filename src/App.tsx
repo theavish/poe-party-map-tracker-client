@@ -4,6 +4,8 @@ import { UpdateUserForm } from './UpdateUserForm';
 import { prettyPrintJson } from './helpers/jsonHelpers';
 import { IUser } from './models/User';
 import { IStash } from './models/Stash';
+import { getMaps } from './api/mapsApi';
+import { IMap } from './models/Map';
 
 export const App: React.FC<Props> = () => {
     const [
@@ -16,21 +18,43 @@ export const App: React.FC<Props> = () => {
         setUser
     ] = useState<IUser | null>(null);
 
+    const [
+        maps,
+        setMaps
+    ] = useState<Array<IMap> | null>(null);
+
     useEffect(() => {
         if (user == null) {
             return;
         }
 
-        getStashItems(user).then(setStash);
+        const {
+            accountName,
+            league,
+        } = user;
+
+        getMaps(user).then((mps) => setMaps(mps as Array<IMap>));
     }, [
         user
     ]);
 
+    useEffect(() => {
+        if (maps == null) {
+            return;
+        }
+
+        setStash({ maps: maps })
+    }, [
+        maps
+    ]);
+
+    useEffect(() => console.log('stash update', stash), [stash]);
+
     return (
         <>
             <UpdateUserForm updateUser={setUser} />
-            <pre>User Data: {prettyPrintJson(user)}</pre>
-            <pre>Stash Data: {prettyPrintJson(stash)}</pre>
+            <pre>User: {prettyPrintJson(user)}</pre>
+            <pre>Maps: {prettyPrintJson(maps)}</pre>
         </>
     );
 };
