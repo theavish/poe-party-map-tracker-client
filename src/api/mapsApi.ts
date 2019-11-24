@@ -3,43 +3,44 @@ import { TradeSearchRequest } from '../models/TradeSearch/TradeSearchRequest';
 import { TradeSearchQuery } from '../models/TradeSearch/TradeSearchQuery';
 import { defaultLeague } from '../constants/defaults';
 import { getJsonFromResponse } from '../helpers/jsonHelpers';
-import { ITradeSearchResponse } from '../models/TradeSearch/TradeSearchResponse';
+import { ITradeSearchResponse, TradeSearchResponse } from '../models/TradeSearch/TradeSearchResponse';
 import { ITradeFetchRequest } from '../models/TradeFetch/TradeFetchRequest';
 import { ITradeFetchResponse, ITradeFetchResponse_Result } from '../models/TradeFetch/TradeFetchResponse';
 import { IMap } from '../models/Map';
 import { User } from '../models/User';
 
-export const getMaps = async ({
+export const getMaps = ({
     accountName,
     league = defaultLeague,
-}: Partial<User>) => {
+}: Partial<User>): Promise<Array<IMap>> => {
     if (!accountName) {
-        return;
+        return new Promise(resolve => resolve([]));
     }
 
-    const maps: Array<IMap | undefined> = [];
-    const mapIds = await getMapIds({ accountName, league });
+    const maps: Array<IMap> = [];
 
-    if (mapIds) {
-        const mapData = await getMapData({
-            query: mapIds.id.toString(),
-            items: mapIds.result.toString(),
+    return getMapIds({ accountName, league })
+        .then(searchResponse => {
+            return getMapData({
+                query: searchResponse.id.toString(),
+                items: searchResponse.result.toString(),
+            }).then(mapData => {
+                mapData.result.forEach(({ item }: Partial<ITradeFetchResponse_Result>) => item && maps.push(item));
+                return maps;
+            });
         });
-
-        if (mapData) {
-            mapData.result.forEach(({ item }: Partial<ITradeFetchResponse_Result>) => maps.push(item));
-        }
-    }
-
-    return maps;
 };
 
 const getMapIds = ({
     accountName,
-    league,
-}: getMapIdsParams): Promise<ITradeSearchResponse> => {
+    league = defaultLeague,
+}: Partial<User>): Promise<ITradeSearchResponse> => {
+    if (!accountName) {
+        return new Promise((resolve, reject) => reject(new TradeSearchResponse()));
+    }
+
     const url = POST_TRADE_SEARCH
-        .replace('{league}', league);
+        .replace('{league}', league.toString());
 
     const searchQuery = new TradeSearchQuery({
         filters: {
@@ -72,23 +73,19 @@ const getMapIds = ({
     }).then(getJsonFromResponse);
 };
 
-const getMapData = async ({
+const getMapData = ({
     items,
-    query,
+    query = '',
 }: ITradeFetchRequest): Promise<ITradeFetchResponse> => {
+
     const url = GET_TRADE_FETCH
-        .replace('{items}', items.toString())
+        .replace('{items}', items)
         .replace('{query}', query);
 
     return fetch(url, {
         method: 'get',
     }).then(getJsonFromResponse);
 };
-
-interface getMapsParams {
-    accountName: string;
-    league: string;
-}
 
 interface getMapIdsParams {
     accountName: string;

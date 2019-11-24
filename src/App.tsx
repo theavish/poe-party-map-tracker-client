@@ -28,13 +28,13 @@ export const App: React.FC<Props> = () => {
             return;
         }
 
-        getMaps(user).then((mps) => setMaps(mps as Array<IMap>));
+        getMaps(user).then(setMaps);
     }, [
         user
     ]);
 
     useEffect(() => {
-        if (maps == null) {
+        if (maps == null || !maps.length) {
             return;
         }
 
@@ -43,7 +43,7 @@ export const App: React.FC<Props> = () => {
         maps
     ]);
 
-    useEffect(() => console.log('stash update', stash), [stash]);
+    useEffect(() => stash ? console.log('stash update', stash) : undefined, [stash]);
 
     return (
         <>

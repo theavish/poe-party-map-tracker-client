@@ -5,6 +5,4 @@ export const prettyPrintJson = (
     JSON.stringify(input, null, whitespace);
 
 export const getJsonFromResponse = (response: Response) =>
-    response.json
-        ? response.json()
-        : response.text();
+    response && response.json ? response.json() : response.text();
