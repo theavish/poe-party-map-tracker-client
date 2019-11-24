@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { getStashItems } from './api/stashApi';
-import { UpdateUserForm } from './UpdateUserForm';
+import { UpdateUserForm } from './components/UpdateUserForm';
 import { prettyPrintJson } from './helpers/jsonHelpers';
 import { IUser } from './models/User';
 import { IStash } from './models/Stash';
 import { getMaps } from './api/mapsApi';
 import { IMap } from './models/Map';
-import { MapListing } from './MapListing/MapListing';
+import { MapListing } from './components/MapListing/MapListing';
 
 export const App: React.FC<Props> = () => {
     const [
@@ -28,11 +27,6 @@ export const App: React.FC<Props> = () => {
         if (user == null) {
             return;
         }
-
-        const {
-            accountName,
-            league,
-        } = user;
 
         getMaps(user).then((mps) => setMaps(mps as Array<IMap>));
     }, [

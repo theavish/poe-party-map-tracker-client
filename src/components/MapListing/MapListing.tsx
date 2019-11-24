@@ -1,6 +1,6 @@
-import { IMap } from '../models/Map';
+import { IMap } from '../../models/Map';
 import React from 'react';
-import { IItem } from '../models/Item';
+import { IItem } from '../../models/Item';
 
 export const MapListing = ({
     maps,

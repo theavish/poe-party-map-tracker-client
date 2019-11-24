@@ -1,9 +1,9 @@
 import React, { FormEvent } from 'react';
 import { FormField } from './FormField';
-import { IUser, User } from '../models/User';
-import { IUpdateUserFormElements } from '../models/UpdateUserFormElements';
-import { defaultLeague } from '../constants/defaults';
-import { ELeague } from '../models/League';
+import { IUser, User } from '../../models/User';
+import { IUpdateUserFormElements } from '../../models/UpdateUserFormElements';
+import { defaultLeague } from '../../constants/defaults';
+import { ELeague } from '../../models/League';
 
 export const UpdateUserForm: React.FC<Props> = ({
     updateUser,
