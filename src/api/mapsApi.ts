@@ -7,20 +7,29 @@ import { ITradeSearchResponse } from '../models/TradeSearch/TradeSearchResponse'
 import { ITradeFetchRequest } from '../models/TradeFetch/TradeFetchRequest';
 import { ITradeFetchResponse, ITradeFetchResponse_Result } from '../models/TradeFetch/TradeFetchResponse';
 import { IMap } from '../models/Map';
+import { User } from '../models/User';
 
 export const getMaps = async ({
     accountName,
     league = defaultLeague,
-}: getMapsParams) => {
-    const mapIds = await getMapIds({ accountName, league });
-    const mapData = await getMapData({
-        query: mapIds.id.toString(),
-        items: mapIds.result.toString(),
-    });
+}: Partial<User>) => {
+    if (!accountName) {
+        return;
+    }
 
     const maps: Array<IMap | undefined> = [];
+    const mapIds = await getMapIds({ accountName, league });
 
-    mapData.result.forEach(({ item }: Partial<ITradeFetchResponse_Result>) => maps.push(item));
+    if (mapIds) {
+        const mapData = await getMapData({
+            query: mapIds.id.toString(),
+            items: mapIds.result.toString(),
+        });
+
+        if (mapData) {
+            mapData.result.forEach(({ item }: Partial<ITradeFetchResponse_Result>) => maps.push(item));
+        }
+    }
 
     return maps;
 };

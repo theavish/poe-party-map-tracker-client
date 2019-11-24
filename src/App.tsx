@@ -6,6 +6,7 @@ import { IUser } from './models/User';
 import { IStash } from './models/Stash';
 import { getMaps } from './api/mapsApi';
 import { IMap } from './models/Map';
+import { MapListing } from './MapListing/MapListing';
 
 export const App: React.FC<Props> = () => {
     const [
@@ -54,7 +55,7 @@ export const App: React.FC<Props> = () => {
         <>
             <UpdateUserForm updateUser={setUser} />
             <pre>User: {prettyPrintJson(user)}</pre>
-            <pre>Maps: {prettyPrintJson(maps)}</pre>
+            <MapListing maps={stash && stash.maps} />
         </>
     );
 };

@@ -7,7 +7,7 @@ export interface IItem {
     extended: { mods: object, hashes: object, text: string };
     frameType: number;
     h: number
-    icon: URL;
+    icon: string;
     identified: boolean;
     ilvl: number;
     league: ELeague;
