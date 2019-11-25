@@ -1,18 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { UpdateUserForm } from './components/UpdateUserForm';
+import { UpdateUserForm } from './components/UpdateUserForm/UpdateUserForm';
 import { prettyPrintJson } from './helpers/jsonHelpers';
 import { IUser } from './models/User';
-import { IStash } from './models/Stash';
 import { getMaps } from './api/mapsApi';
 import { IMap } from './models/Map';
 import { MapListing } from './components/MapListing/MapListing';
+import { sortByProp } from './helpers/arrayHelpers';
 
 export const App: React.FC<Props> = () => {
-    const [
-        stash,
-        setStash
-    ] = useState<IStash | null>(null);
-
     const [
         user,
         setUser
@@ -21,35 +16,23 @@ export const App: React.FC<Props> = () => {
     const [
         maps,
         setMaps
-    ] = useState<Array<IMap> | null>(null);
+    ] = useState<Array<IMap>>([]);
 
     useEffect(() => {
         if (user == null) {
             return;
         }
 
-        getMaps(user).then(setMaps);
+        getMaps(user).then(m => setMaps(m.sort(sortByProp('typeLine'))));
     }, [
         user
     ]);
-
-    useEffect(() => {
-        if (maps == null || !maps.length) {
-            return;
-        }
-
-        setStash({ maps: maps })
-    }, [
-        maps
-    ]);
-
-    useEffect(() => stash ? console.log('stash update', stash) : undefined, [stash]);
 
     return (
         <>
             <UpdateUserForm updateUser={setUser} />
             <pre>User: {prettyPrintJson(user)}</pre>
-            <MapListing maps={stash && stash.maps} />
+            <MapListing maps={maps} />
         </>
     );
 };

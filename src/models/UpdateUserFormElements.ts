@@ -1,5 +1,5 @@
 export interface IUpdateUserFormElements extends HTMLFormControlsCollection {
     accountName: HTMLInputElement;
-    league: HTMLInputElement;
-    sessionId: HTMLInputElement;
+    league?: HTMLInputElement;
+    sessionId?: HTMLInputElement;
 }

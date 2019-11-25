@@ -19,9 +19,9 @@ export interface IItem {
     w: number;
 }
 
-interface IItem_Properties {
+export interface IItem_Properties {
     displayMode: number;
     name: string;
     type: number;
-    values: [string, number];
+    values: [[string, number]];
 }

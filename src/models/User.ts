@@ -4,16 +4,16 @@ import { ELeague } from './League';
 
 export interface IUser {
     accountName: string;
-    league: ELeague;
+    league?: ELeague;
     realm?: ERealm;
-    sessionId: string;
+    sessionId?: string;
 }
 
 export class User implements IUser {
     public accountName: string;
-    public league: ELeague;
+    public league?: ELeague;
     public realm?: ERealm = defaultRealm;
-    public sessionId: string;
+    public sessionId?: string;
 
     constructor({
         accountName,

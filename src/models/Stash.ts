@@ -2,7 +2,7 @@ import { IMap } from './Map';
 
 export interface IStash {
     stash?: object;
-    maps?: Array<IMap>;
+    maps: Array<IMap>;
     tabs?: Array<object>;
 }
 
