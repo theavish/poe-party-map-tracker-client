@@ -1,6 +1,6 @@
 import { sortByProp } from '../helpers/arrayHelpers';
 
-export const mapsByTier: { [key: number]: Array<{ name: string, img: string, tier: string }> } = {
+export const mapsByTier: { [key: number]: Array<{ name: string, img: string, tier: string, subrows?: { ownedBy?: Array<string> } }> } = {
     1: [
         {
             name: 'Desert Map',

@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { MapDashboard } from '../MapDashboard/MapDashboard';
 import { mapListByTier, mapsByTier } from '../../models/mapsByTier';
 import { IUser } from '../../models/User';
-import { Column } from 'react-table';
+import { CellInfo, CellProps, Column } from 'react-table';
 
 export const MapListing: React.FC<{ user?: IUser }> = ({
     user,
@@ -30,6 +30,7 @@ export const MapListing: React.FC<{ user?: IUser }> = ({
                 columns: [
                     {
                         Header: user.accountName,
+                        Cell: ({ row }: {row:any}) => {},
                     }
                 ]
             })
@@ -38,7 +39,22 @@ export const MapListing: React.FC<{ user?: IUser }> = ({
         return cols;
     }, [user]);
 
-    const data = useMemo(() => mapListByTier, []);
+    const data = useMemo(() => [...mapListByTier.map(map => {
+        console.log(user, map)
+        if (user) {
+            if (map.subrows) {
+                if (map.subrows.ownedBy) {
+                    map.subrows.ownedBy = [...map.subrows.ownedBy, user.accountName];
+                } else {
+                    map.subrows.ownedBy = [user.accountName];
+                }
+            }
+        }
+
+        return map;
+    })], [user]);
+
+    console.log(data)
 
     return (
         <MapDashboard
