@@ -13,7 +13,7 @@ export const MapDashboard: React.FC<{ columns: Array<Column>, data: object }> = 
         prepareRow,
     } = useTable({
         columns,
-        data: data as TableOptions<>,
+        data: data as any,
     });
 
     return (
