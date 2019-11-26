@@ -11,7 +11,7 @@ export const App: React.FC<Props> = () => {
     const [
         user,
         setUser
-    ] = useState<IUser | null>(null);
+    ] = useState<IUser | undefined>(undefined);
 
     const [
         maps,
@@ -32,7 +32,7 @@ export const App: React.FC<Props> = () => {
         <>
             <UpdateUserForm updateUser={setUser} />
             <pre>User: {prettyPrintJson(user)}</pre>
-            <MapListing maps={maps} />
+            <MapListing user={user} />
         </>
     );
 };

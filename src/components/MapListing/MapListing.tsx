@@ -1,34 +1,43 @@
-import { IMap, Mapp } from '../../models/Map';
-import React from 'react';
-import './MapListing.css';
+import React, { useMemo } from 'react';
+import { MapDashboard } from '../MapDashboard/MapDashboard';
+import { mapListByTier, mapsByTier } from '../../models/mapsByTier';
+import { IUser } from '../../models/User';
 
-export const MapListing = ({
-    maps,
-}: Params) => {
+export const MapListing: React.FC<{ user?: IUser }> = ({
+    user,
+}) => {
+    const columns = useMemo(() => {
+        const cols = [
+            {
+                Header: () => null,
+                Cell: ({ row }: {row: any}) => <img src={row.values.img} alt={`${row.values.name} Icon`} />,
+                accessor: 'img'
+            },
+            {
+                Header: 'Tier',
+                accessor: 'tier'
+            },
+            {
+                Header: 'Name',
+                accessor: 'name'
+            },
+            user ? {
+                Header: 'Owned By',
+                columns: []
+            } : undefined,
+        ];
+
+
+
+        return cols;
+    }, []);
+
+    const data = useMemo(() => mapListByTier, []);
+
     return (
-        <>
-            <ul>
-                { maps &&
-                    maps.map((map: IMap, index: number) => {
-                        const m = new Mapp(map);
-
-                        const type = m.typeLine;
-
-                        return (
-                            <li
-                                key={index}
-                            >
-                                <img src={m.icon} alt={`${type} icon`} />
-                                <div>{type} (T{m.getTier()})</div>
-                            </li>
-                        );
-                    })
-                }
-            </ul>
-        </>
+        <MapDashboard
+            columns={columns}
+            data={data}
+        />
     );
 };
-
-interface Params {
-    maps: Array<IMap>;
-}

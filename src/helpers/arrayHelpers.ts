@@ -2,8 +2,8 @@ export const sortByProp = (prop: string) => (
     x: any,
     y: any,
 ): number => {
-    const a = x[prop].toUpperCase();
-    const b = y[prop].toUpperCase();
+    const a = tryParseAsInt(x[prop]);
+    const b = tryParseAsInt(y[prop]);
 
     if (a > b) {
         return 1;
@@ -15,3 +15,6 @@ export const sortByProp = (prop: string) => (
 
     return 0;
 };
+
+const tryParseAsInt = (input: any) =>
+    typeof input === 'string' ? parseInt(input) : input;
