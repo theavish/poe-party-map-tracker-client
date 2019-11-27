@@ -5,7 +5,6 @@ import { IUser } from './models/User';
 import { getMaps } from './api/mapsApi';
 import { IMap } from './models/Map';
 import { MapListing } from './components/MapListing/MapListing';
-import { sortByProp } from './helpers/arrayHelpers';
 
 export const App: React.FC<Props> = () => {
     const [
@@ -18,14 +17,37 @@ export const App: React.FC<Props> = () => {
         setMaps
     ] = useState<Array<IMap>>([]);
 
+    // get a user's maps
     useEffect(() => {
         if (user == null) {
             return;
         }
 
-        getMaps(user).then(m => setMaps(m.sort(sortByProp('typeLine'))));
+        getMaps(user).then(setMaps);
     }, [
         user
+    ]);
+
+    // set the user's `ownedMaps` property
+    useEffect(() => {
+        if (!user || !maps) {
+            return;
+        }
+
+        maps.forEach((map: IMap) => {
+            if (!user.ownedMaps) {
+                user.ownedMaps = [];
+            }
+
+            user.ownedMaps.push(map);
+        });
+
+        console.log(user)
+
+        setUser(user);
+    }, [
+        user,
+        maps,
     ]);
 
     return (

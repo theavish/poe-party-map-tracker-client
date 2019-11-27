@@ -1,8 +1,10 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { MapDashboard } from '../MapDashboard/MapDashboard';
-import { mapListByTier, mapsByTier } from '../../models/mapsByTier';
+import { mapListByTier } from '../../models/mapsByTier';
 import { IUser } from '../../models/User';
-import { CellInfo, CellProps, Column } from 'react-table';
+import { Column } from 'react-table';
+import { IMap } from '../../models/Map';
+import { getMapBaseName } from '../../helpers/mapHelpers';
 
 export const MapListing: React.FC<{ user?: IUser }> = ({
     user,
@@ -30,7 +32,20 @@ export const MapListing: React.FC<{ user?: IUser }> = ({
                 columns: [
                     {
                         Header: user.accountName,
-                        Cell: ({ row }: {row:any}) => {},
+                        Cell: ({ user, row }: { user: IUser, row: { values: { name: string } } }) => {
+                            if (user.ownedMaps) {
+                                user.ownedMaps.map((map: IMap) => {
+                                    console.log(row.values.name, getMapBaseName(map))
+                                    if (row.values.name === getMapBaseName(map)) {
+                                        return '✔';
+                                    }
+
+                                    return null;
+                                });
+                            }
+
+                            return null;
+                        },
                     }
                 ]
             })
@@ -40,7 +55,6 @@ export const MapListing: React.FC<{ user?: IUser }> = ({
     }, [user]);
 
     const data = useMemo(() => [...mapListByTier.map(map => {
-        console.log(user, map)
         if (user) {
             if (map.subrows) {
                 if (map.subrows.ownedBy) {
@@ -54,10 +68,9 @@ export const MapListing: React.FC<{ user?: IUser }> = ({
         return map;
     })], [user]);
 
-    console.log(data)
-
     return (
         <MapDashboard
+            user={user}
             columns={columns}
             data={data}
         />

@@ -7,8 +7,10 @@ import {
     Row,
     useTable,
 } from 'react-table';
+import { IUser } from '../../models/User';
 
-export const MapDashboard: React.FC<{ columns: Array<Column>, data: Array<object> }> = ({
+export const MapDashboard: React.FC<{ columns: Array<Column>, data: Array<object>, user?: IUser }> = ({
+    user,
     columns,
     data,
 }) => {
@@ -36,13 +38,13 @@ export const MapDashboard: React.FC<{ columns: Array<Column>, data: Array<object
                 ))}
                 </thead>
                 <tbody {...getTableBodyProps()}>
-                {rows.map((row: Row, i: number) => {
+                {rows.map((row: Row, rowIndex: number) => {
                           prepareRow(row);
                           return (
                               <tr {...row.getRowProps()}>
                                   {row.cells.map((cell: Cell) => {
                                       return (
-                                          <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                                          <td {...cell.getCellProps()}>{cell.render('Cell', { user, value: cell.value })}</td>
                                       );
                                   })}
                               </tr>
